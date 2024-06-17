@@ -1,0 +1,18 @@
+{
+	"KPackageStructure": "Plasma/Applet",
+	"KPlugin": {
+		"Authors": [
+			{
+				"Email": "hello@danielwjchen.com",
+				"Name": "Daniel Chen"
+			}
+		],
+		"Category": "System Information",
+		"Description": "A widget to take over the world!",
+		"Icon": "battery",
+		"Id": "com.github.danielwjchen.folding-at-home-plasma-widget",
+		"Name": "Hello World",
+		"Version": "1",
+		"Website": "https://github.com/danielwjchen/folding-at-home-plasma-widget"
+	}
+}
