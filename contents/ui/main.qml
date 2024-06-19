@@ -39,20 +39,21 @@ PlasmoidItem {
         id: refreshButton
         text: i18n(percentdone)
         onClicked: getUpdates()
-        Component.onCompleted: () => {
-            App.createApp(timer).then((app) => {
-                app.onUpdate((response) => {
-                    if (!response.json) {
-                        return;
+    }
+
+    Component.onCompleted: () => {
+        App.createApp(timer).then((app) => {
+            app.onUpdate((response) => {
+                if (!response.json) {
+                    return;
+                }
+                response.json.forEach(command => {
+                    if (command[0] === "/api/slots") {
+                        percentdone = command[1][0].percentdone;
                     }
-                    response.json.forEach(command => {
-                        if (command[0] === "/api/slots") {
-                            percentdone = command[1][0].percentdone;
-                        }
-                    });
                 });
             });
-        }
+        });
     }
 
 }
