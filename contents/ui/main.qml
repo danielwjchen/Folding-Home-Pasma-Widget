@@ -7,6 +7,7 @@ import "application.js" as App
 
 PlasmoidItem {
     id: root
+    property string sid: ""
     property string percentdone: "--%"
 
     preferredRepresentation: compactRepresentation
@@ -38,12 +39,19 @@ PlasmoidItem {
     compactRepresentation: PlasmaComponents.Button {
         id: refreshButton
         text: i18n(percentdone)
-        onClicked: getUpdates()
+        onClicked: () => {
+            getUpdates(timer, sid)
+        }
     }
 
     Component.onCompleted: () => {
-        App.createApp(timer).then((app) => {
-            app.onUpdate((response) => {
+        App.createSession().then((response) => {
+            if (response.status !== 200) {
+                console.error("Unable to start session");
+                return null;
+            }
+            sid = response.content;
+            App.getUpdates(timer, sid, (response) => {
                 if (!response.json) {
                     return;
                 }
@@ -52,7 +60,7 @@ PlasmoidItem {
                         percentdone = command[1][0].percentdone;
                     }
                 });
-            });
+            })
         });
     }
 

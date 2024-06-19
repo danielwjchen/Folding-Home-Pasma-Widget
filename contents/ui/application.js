@@ -84,56 +84,17 @@ function createSession() {
 
 }
 
-class App {
-
-	constructor(timer, sid) {
-		this.timer = timer;
-		this.sid = sid;
-		this.callback = null;
-		this.isPause = false;
-		this.isIdle = false;
-		this.getUpdates()
-	}
-
-	getUpdates() {
-		const resource = {
-			url: getUrl("updates", { sid: this.sid }),
-		};
-		console.debug(this.timer);
-		fetch(resource).then((response) => {
-			response.json = JSON.parse(response.content);
-			if (this.callback) {
-				this.callback(response);
-			}
-			this.timer.setTimeout(() => {
-				this.getUpdates()
-			}, TIMEOUT);
-		}).catch(reason => {
-			console.debug(reason);
-		});
-	}
-
-	onUpdate(callback) {
-		this.callback = callback;
-	}
-
-	toggleIsIdle() {
-
-	}
-
-	toggleIsPause() {
-
-	}
-
-}
-
-function createApp(timer) {
-	return createSession().then((response) => {
-		if (response.status !== 200) {
-			console.error("Unable to start session");
-			return null;
-		}
-		const result = new App(timer, response.content);
-		return result;
+function getUpdates(timer, sid, callback) {
+	const resource = {
+		url: getUrl("updates", { sid: sid }),
+	};
+	fetch(resource).then((response) => {
+		response.json = JSON.parse(response.content);
+		callback(response);
+		timer.setTimeout(() => {
+			getUpdates(timer, sid, callback)
+		}, TIMEOUT);
+	}).catch(reason => {
+		console.debug(reason);
 	});
 }
