@@ -11,7 +11,7 @@
 		"Description": "A widget to take over the world!",
 		"Icon": "battery",
 		"Id": "com.github.danielwjchen.folding-at-home-plasma-widget",
-		"Name": "Hello World",
+		"Name": "Folding@Home Plasma Widget",
 		"Version": "1",
 		"Website": "https://github.com/danielwjchen/folding-at-home-plasma-widget"
 	}

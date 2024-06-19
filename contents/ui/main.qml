@@ -7,11 +7,8 @@ import "application.js" as App
 
 PlasmoidItem {
     id: root
-    Layout.minimumWidth: Kirigami.Units.gridUnit * 5
-    Layout.minimumHeight: Kirigami.Units.gridUnit * 5
 
-    implicitHeight: Kirigami.Units.gridUnit * 10
-    implicitWidth: Kirigami.Units.gridUnit * 10
+    preferredRepresentation: compactRepresentation
 
     Timer {
         id: timer
@@ -28,25 +25,33 @@ PlasmoidItem {
         }
     }
 
-    Component.onCompleted: () => {
-        App.createApp(timer).then((app) => {
-            app.onUpdate((response) => {
-                if (!response.json) {
-                    return;
-                }
-                response.json.forEach(command => {
-                    if (command[0] === "/api/slots") {
-                        refreshButton.text = command[1][0].percentdone;
-                    }
-                });
-            });
-        });
+    fullRepresentation: Item {
+        id: fullItem
+        Layout.minimumWidth: Kirigami.Units.gridUnit * 5
+        Layout.minimumHeight: Kirigami.Units.gridUnit * 5
+
+        implicitHeight: Kirigami.Units.gridUnit * 10
+        implicitWidth: Kirigami.Units.gridUnit * 10
     }
 
-    PlasmaComponents.Button {
+    compactRepresentation: PlasmaComponents.Button {
         id: refreshButton
         text: i18n("--%")
         onClicked: getUpdates()
+        Component.onCompleted: () => {
+            App.createApp(timer).then((app) => {
+                app.onUpdate((response) => {
+                    if (!response.json) {
+                        return;
+                    }
+                    response.json.forEach(command => {
+                        if (command[0] === "/api/slots") {
+                            refreshButton.text = command[1][0].percentdone;
+                        }
+                    });
+                });
+            });
+        }
     }
 
 }
