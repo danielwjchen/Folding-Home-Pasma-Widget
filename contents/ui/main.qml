@@ -7,6 +7,7 @@ import "application.js" as App
 
 PlasmoidItem {
     id: root
+    property string percentdone: "--%"
 
     preferredRepresentation: compactRepresentation
 
@@ -36,7 +37,7 @@ PlasmoidItem {
 
     compactRepresentation: PlasmaComponents.Button {
         id: refreshButton
-        text: i18n("--%")
+        text: i18n(percentdone)
         onClicked: getUpdates()
         Component.onCompleted: () => {
             App.createApp(timer).then((app) => {
@@ -46,7 +47,7 @@ PlasmoidItem {
                     }
                     response.json.forEach(command => {
                         if (command[0] === "/api/slots") {
-                            refreshButton.text = command[1][0].percentdone;
+                            percentdone = command[1][0].percentdone;
                         }
                     });
                 });

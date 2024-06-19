@@ -84,10 +84,6 @@ function createSession() {
 
 }
 
-function getUpdates() {
-
-}
-
 class App {
 
 	constructor(timer, sid) {
