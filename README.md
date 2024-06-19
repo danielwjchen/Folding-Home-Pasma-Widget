@@ -1,6 +1,6 @@
 # Folding@Home Plasma Widget
 
-A KDE Plasma Widget for Folding@home.
+A KDE Plasma 6.x Widget for Folding@home.
 
 ## Development
 Run the following command to test the widget.
