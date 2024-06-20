@@ -98,3 +98,25 @@ function getUpdates(timer, sid, callback) {
 		console.debug(reason);
 	});
 }
+
+function toggleIsOnlyWhenIdle(sid, isOnlyWhenIdle) {
+	const resource = {
+		url: getUrl("set", { sid: sid, idle: isOnlyWhenIdle }),
+	};
+	fetch(resource).then(() => {
+		// intentionally left blank
+	}).catch(reason => {
+		console.debug(reason);
+	});
+}
+
+function toggleStopsAfterFinishingCurrentWorkUnit(sid, stopsAfterFinishingCurrentWorkUnit) {
+	const resource = {
+		url: getUrl("set", { sid: sid, finish: stopsAfterFinishingCurrentWorkUnit }),
+	};
+	fetch(resource).then(() => {
+		// intentionally left blank
+	}).catch(reason => {
+		console.debug(reason);
+	});
+}
