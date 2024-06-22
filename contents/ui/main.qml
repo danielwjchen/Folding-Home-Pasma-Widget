@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.plasmoid
+import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.components as PlasmaComponents
 import "application.js" as App
 
@@ -27,21 +28,22 @@ PlasmoidItem {
         }
     }
 
-    fullRepresentation: Item {
-        id: fullItem
-        Layout.minimumWidth: Kirigami.Units.gridUnit * 5
-        Layout.minimumHeight: Kirigami.Units.gridUnit * 5
-
-        implicitHeight: Kirigami.Units.gridUnit * 10
-        implicitWidth: Kirigami.Units.gridUnit * 10
+    fullRepresentation: FullRepresentationItem {
+        percentdone: root.percentdone
     }
 
-    compactRepresentation: PlasmaComponents.Button {
+    compactRepresentation: Item {
         id: refreshButton
-        text: i18n(percentdone)
-        onClicked: () => {
-            getUpdates(timer, sid)
+        anchors.fill: parent
+        PlasmaComponents.Label {
+            text: i18n(percentdone)
         }
+    }
+
+    toolTipItem: FullRepresentationItem {
+        id: fullItem
+        visible: false
+        percentdone: root.percentdone
     }
 
     Component.onCompleted: () => {
