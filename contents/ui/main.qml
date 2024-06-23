@@ -10,6 +10,13 @@ PlasmoidItem {
     id: root
     property string sid: ""
     property string percentdone: "--%"
+    property string eta: ""
+    property string timeRemaining: ""
+    property string description: ""
+    property string status: ""
+    property int projectId: 0
+    property string version: ""
+    property bool runsOnlyWhenIdle: false
 
     preferredRepresentation: compactRepresentation
 
@@ -58,8 +65,21 @@ PlasmoidItem {
                     return;
                 }
                 response.json.forEach(command => {
-                    if (command[0] === "/api/slots") {
-                        percentdone = command[1][0].percentdone;
+                    if (command[0] === "/api/basic") {
+                        root.version = command[1].version;
+                    } else if (command[0] === "/api/slots") {
+                        root.percentdone = command[1][0].percentdone;
+                        root.runsOnlyWhenIdle = command[1][0].options.idle;
+                        root.eta = command[1][0].eta;
+                        root.timeRemaining = command[1][0].timeremaining;
+                        root.description = command[1][0].description;
+                        root.status = command[1][0].status;
+                        if (root.projectId !== command[1][0].project && root.version) {
+                            App.getProjectInfo(command[1][0].project, root.version, (response) => {
+                                console.debug(JSON.stringify(response.json))
+                            });
+                        }
+                        root.projectId = command[1][0].project;
                     }
                 });
             })

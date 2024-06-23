@@ -1,4 +1,5 @@
-const baseUrl = "http://127.0.0.1:7396/api";
+const clientBaseUrl = "http://127.0.0.1:7396/api";
+const projectBaseUrl = "https://stats.foldingathome.org/project";
 const TIMEOUT = 1000;
 
 function fetch(resource) {
@@ -37,7 +38,7 @@ function fetch(resource) {
 }
 
 function getUrl(path, queryParams) {
-	const result = `${baseUrl}/${path}`;
+	const result = `${clientBaseUrl}/${path}`;
 	if (queryParams) {
 		const queryStrings = Object.entries(queryParams).map(([key, value]) => {
 			return `${key}=${encodeURI(value)}`;
@@ -99,9 +100,9 @@ function getUpdates(timer, sid, callback) {
 	});
 }
 
-function toggleIsOnlyWhenIdle(sid, isOnlyWhenIdle) {
+function setRunsOnlyWhenIdle(sid, runsOnlyWhenIdle) {
 	const resource = {
-		url: getUrl("set", { sid: sid, idle: isOnlyWhenIdle }),
+		url: getUrl("set", { sid: sid, idle: runsOnlyWhenIdle }),
 	};
 	fetch(resource).then(() => {
 		// intentionally left blank
@@ -110,12 +111,29 @@ function toggleIsOnlyWhenIdle(sid, isOnlyWhenIdle) {
 	});
 }
 
-function toggleStopsAfterFinishingCurrentWorkUnit(sid, stopsAfterFinishingCurrentWorkUnit) {
+function setStopsAfterFinishingCurrentWorkUnit(sid, stopsAfterFinishingCurrentWorkUnit) {
 	const resource = {
 		url: getUrl("set", { sid: sid, finish: stopsAfterFinishingCurrentWorkUnit }),
 	};
 	fetch(resource).then(() => {
 		// intentionally left blank
+	}).catch(reason => {
+		console.debug(reason);
+	});
+}
+
+function getProjectInfo(projectId, version, callback) {
+	const resource = {
+		url: `${projectBaseUrl}?id=${projectId}&version=${version}`
+	};
+	fetch(resource).then((response) => {
+		// result is actually in JSONP format and needs to be massaged
+		// @see https://en.wikipedia.org/wiki/JSONP
+		const indexOfFirstParenthesis = response.content.indexOf("(");
+		const indexOfLastParenthesis = response.content.lastIndexOf(")");
+		const parsed = response.content.substring(indexOfFirstParenthesis + 1, indexOfLastParenthesis);
+		response.json = JSON.parse(parsed);
+		callback(response);
 	}).catch(reason => {
 		console.debug(reason);
 	});
