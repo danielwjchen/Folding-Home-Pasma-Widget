@@ -15,6 +15,7 @@ PlasmoidItem {
     property string description: ""
     property string status: ""
     property int projectId: 0
+    property string projectDescription: ""
     property string version: ""
     property bool runsOnlyWhenIdle: false
 
@@ -76,7 +77,7 @@ PlasmoidItem {
                         root.status = command[1][0].status;
                         if (root.projectId !== command[1][0].project && root.version) {
                             App.getProjectInfo(command[1][0].project, root.version, (response) => {
-                                console.debug(JSON.stringify(response.json))
+                                root.projectDescription = response.json[0][1].pdesc
                             });
                         }
                         root.projectId = command[1][0].project;
