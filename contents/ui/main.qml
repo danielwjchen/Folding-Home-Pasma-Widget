@@ -25,7 +25,7 @@ PlasmoidItem {
     property bool runsOnlyWhenIdle: false
     property bool isDesktopContainment: plasmoid.location == PlasmaCore.Types.Floating
 
-    preferredRepresentation: isDesktopContainment ? Plasmoid.fullRepresentation : Plasmoid.compactRepresentation
+    preferredRepresentation: isDesktopContainment ? fullRepresentation : compactRepresentation
 
     Timer {
         id: timer
