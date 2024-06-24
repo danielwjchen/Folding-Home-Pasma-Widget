@@ -10,16 +10,21 @@ PlasmoidItem {
     id: root
     property string sid: ""
     property string percentdone: "--%"
-    property string eta: ""
-    property string timeRemaining: ""
-    property string description: ""
-    property string status: ""
+    property string eta: "--"
+    property string timeRemaining: "--"
+    property string description: "--"
+    property string status: "--"
     property int projectId: 0
-    property string projectDescription: ""
-    property string version: ""
+    property int run: 0
+    property int clone: 0
+    property int gen: 0
+    property string creditEstimate: "--"
+    property string projectDescription: "--"
+    property string version: "--"
     property bool runsOnlyWhenIdle: false
 
     preferredRepresentation: compactRepresentation
+    // preferredRepresentation: fullRepresentation
 
     Timer {
         id: timer
@@ -38,6 +43,18 @@ PlasmoidItem {
 
     fullRepresentation: FullRepresentationItem {
         percentdone: root.percentdone
+        eta: root.eta
+        timeRemaining: root.timeRemaining
+        description: root.description
+        status: root.status
+        projectId: root.projectId
+        run: root.run
+        clone: root.clone
+        gen: root.gen
+        projectDescription: root.projectDescription
+        version: root.version
+        runsOnlyWhenIdle: root.runsOnlyWhenIdle
+        creditEstimate: root.creditEstimate
     }
 
     compactRepresentation: Item {
@@ -45,6 +62,7 @@ PlasmoidItem {
         anchors.fill: parent
         PlasmaComponents.Label {
             text: i18n(percentdone)
+            verticalAlignment: Text.AlignVCenter
         }
     }
 
@@ -52,6 +70,18 @@ PlasmoidItem {
         id: fullItem
         visible: false
         percentdone: root.percentdone
+        eta: root.eta
+        timeRemaining: root.timeRemaining
+        description: root.description
+        status: root.status
+        projectId: root.projectId
+        run: root.run
+        clone: root.clone
+        gen: root.gen
+        projectDescription: root.projectDescription
+        creditEstimate: root.creditEstimate
+        version: root.version
+        runsOnlyWhenIdle: root.runsOnlyWhenIdle
     }
 
     Component.onCompleted: () => {
@@ -75,6 +105,10 @@ PlasmoidItem {
                         root.timeRemaining = command[1][0].timeremaining;
                         root.description = command[1][0].description;
                         root.status = command[1][0].status;
+                        root.run = command[1][0].run;
+                        root.clone = command[1][0].clone;
+                        root.gen = command[1][0].gen;
+                        root.creditEstimate = command[1][0].creditestimate
                         if (root.projectId !== command[1][0].project && root.version) {
                             App.getProjectInfo(command[1][0].project, root.version, (response) => {
                                 root.projectDescription = response.json[0][1].pdesc
