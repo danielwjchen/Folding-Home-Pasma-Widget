@@ -31,10 +31,24 @@ Item {
 	ColumnLayout {
 		anchors.fill: parent
 		
-		PlasmaComponents.Label {
-			text: i18n(percentdone)
-			font.bold: true
-			font.pointSize: 24
+		RowLayout {
+			PlasmaComponents.Label {
+				rightPadding: Kirigami.Units.gridUnit 
+				text: i18n(percentdone)
+				font.bold: true
+				font.pointSize: 24
+			}
+			ColumnLayout {
+				Layout.fillWidth: true
+				PlasmaComponents.Label {
+					text: i18n(description)
+					font.pointSize: 10
+				}
+				PlasmaComponents.Label {
+					text: i18n(status)
+					font.pointSize: 10
+				}
+			}
 		}
 		RowLayout {
 			id: row1

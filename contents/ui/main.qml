@@ -63,6 +63,8 @@ PlasmoidItem {
         PlasmaComponents.Label {
             anchors.centerIn: parent
             text: i18n(percentdone)
+            leftPadding: Kirigami.Units.gridUnit 
+            rightPadding: Kirigami.Units.gridUnit 
         }
     }
 
