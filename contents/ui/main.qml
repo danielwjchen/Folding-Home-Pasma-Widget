@@ -102,7 +102,7 @@ PlasmoidItem {
                         root.version = command[1].version;
                     } else if (command[0] === "/api/slots") {
                         root.percentdone = command[1][0].percentdone;
-                        root.runsOnlyWhenIdle = command[1][0].options.idle;
+                        root.runsOnlyWhenIdle = command[1][0].idle;
                         root.eta = command[1][0].eta;
                         root.timeRemaining = command[1][0].timeremaining;
                         root.description = command[1][0].description;
