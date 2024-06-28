@@ -9,7 +9,7 @@
 			}
 		],
 		"Category": "System Information",
-		"Description": "A widget to display Folding@Home client information.",
+		"Description": "A widget to display Folding@Home v7 client information.",
 		"Icon": "battery",
 		"Id": "com.github.danielwjchen.folding-at-home-plasma-widget",
 		"Name": "Folding@Home Plasma Widget",
