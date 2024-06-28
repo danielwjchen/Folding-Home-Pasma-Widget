@@ -85,18 +85,27 @@ function createSession() {
 
 }
 
+function getTimeoutPromise(timer, timeout) {
+	return new Promise(resolve => {
+		timer.setTimeout(() => {
+			resolve();
+		}, timeout);
+	});
+}
+
 function getUpdates(timer, sid, callback) {
 	const resource = {
 		url: getUrl("updates", { sid: sid }),
 	};
-	fetch(resource).then((response) => {
+	Promise.all([
+		fetch(resource).catch(reason => {
+			console.debug(reason);
+		}),
+		getTimeoutPromise(timer, TIMEOUT),
+	]).then(([response]) => {
 		response.json = JSON.parse(response.content);
 		callback(response);
-		timer.setTimeout(() => {
-			getUpdates(timer, sid, callback)
-		}, TIMEOUT);
-	}).catch(reason => {
-		console.debug(reason);
+		getUpdates(timer, sid, callback)
 	});
 }
 
