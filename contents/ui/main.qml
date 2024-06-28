@@ -20,6 +20,7 @@ PlasmoidItem {
     property int run: 0
     property int clone: 0
     property int gen: 0
+    property real iconImageOpacity: 0.5
     property string creditEstimate: "--"
     property string projectDescription: "--"
     property string version: "--"
@@ -63,12 +64,12 @@ PlasmoidItem {
     compactRepresentation: RowLayout {
         anchors.fill: parent
         Image {
+            id: iconImage
             source: "../images/icon"
-            width: parent.height
-            height: parent.height
-            Layout.alignment: parent.verticalCenter
+            opacity: iconImageOpacity
         }
         PlasmaComponents.Label {
+            id: compactRepresentationLabel
             text: i18n(percentdone)
             leftPadding: Kirigami.Units.gridUnit 
             rightPadding: Kirigami.Units.gridUnit 
@@ -104,6 +105,7 @@ PlasmoidItem {
                 if (!response.json) {
                     return;
                 }
+                root.iconImageOpacity = 1;
                 response.json.forEach(command => {
                     if (command[0] === "/api/basic") {
                         root.version = command[1].version;
