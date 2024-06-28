@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 
 import org.kde.kirigami as Kirigami
+import org.kde.ksvg as KSvg
 import org.kde.plasma.plasmoid
 import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.components as PlasmaComponents
@@ -25,7 +26,8 @@ PlasmoidItem {
     property bool runsOnlyWhenIdle: false
     property bool isDesktopContainment: plasmoid.location == PlasmaCore.Types.Floating
 
-    preferredRepresentation: isDesktopContainment ? fullRepresentation : compactRepresentation
+    // preferredRepresentation: isDesktopContainment ? fullRepresentation : compactRepresentation
+    preferredRepresentation: compactRepresentation
 
     Timer {
         id: timer
@@ -58,10 +60,15 @@ PlasmoidItem {
         creditEstimate: root.creditEstimate
     }
 
-    compactRepresentation: Item {
+    compactRepresentation: RowLayout {
         anchors.fill: parent
+        Image {
+            source: "../images/icon"
+            width: parent.height
+            height: parent.height
+            Layout.alignment: parent.verticalCenter
+        }
         PlasmaComponents.Label {
-            anchors.centerIn: parent
             text: i18n(percentdone)
             leftPadding: Kirigami.Units.gridUnit 
             rightPadding: Kirigami.Units.gridUnit 

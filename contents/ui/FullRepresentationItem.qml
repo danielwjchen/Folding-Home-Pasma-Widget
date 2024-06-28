@@ -99,12 +99,8 @@ Item {
 			text: i18n(`Project ${projectId}`)
 			font.pointSize: fontSizeTitle
 		}
-		// Rectangle {
-		// 	color: "#ff0"
-		// 	Layout.fillHeight: true
-		// 	Layout.fillWidth: true
-		// }
 		PlasmaComponents.Label {
+			clip: true
 			text: i18n(projectDescription)
 			wrapMode: Text.WordWrap
 			Layout.fillHeight: true
